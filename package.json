@@ -1,0 +1,30 @@
+{
+  "name": "mofron-comp-frameradio",
+  "version": "0.0.1",
+  "description": "frameradio component for mofron",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/simpart/mofron-comp-frameradio.git"
+  },
+  "dependencies": {
+    "mofron-comp-frame": "",
+    "mofron-comp-radio": "",
+    "mofron-effect-selectable": "",
+    "mofron-layout-margin": "",
+    "mofron-event-click": ""
+  },
+  "keywords": [
+    "mofron",
+    "front-end"
+  ],
+  "author": "simpats",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/simpart/mofron-comp-frameradio/issues"
+  },
+  "homepage": "https://github.com/simpart/mofron-comp-frameradio#readme"
+}
