@@ -43,41 +43,16 @@ module.exports = class extends Radio {
             this.child(this.frame());
             this.childDom(this.frame().childDom());
             
+            this.radio().changeEvent((s1,s2,s3) => {
+                if (false === s2) {
+                    s3.clear();
+                }
+	    },this);
 
-	    let clk_evt = (c1,c2,c3) => {
-                try {
-		    if (true === c1.radio().select()) {
-                        return;
-		    }
-		    c1.radio().select(true);
-                    let ev = c1.selectEvent();
-                    for (let ev_idx in ev) {
-                        ev[ev_idx][0](c1, c2, ev[ev_idx][1]);
-                    }
-		} catch (e) {
-                    console.error(e.stack);
-                    throw e;
-		}
-	    }
-            this.event(new Click(clk_evt));
-
-	    //this.radio().childDom().parent().style({ 'margin':'auto' });
             this.child(this.radio());
             
 	    this.confmng().delete("rootDom");
             this.rootDom(this.frame().rootDom()[0]);
-/*
-                        <Radio style="margin:auto;" padding=0.05rem group=api_plan></Radio>
-                        <div layout=HrzCenter:80>
-                            <LinerTxt size=0.25rem weight=700 accent-color=[85,180,130]>
-                                <style>text-align:center;</style>
-                                <text>Free</text>
-                            </LinerTxt>
-                        </div>
-                        <Text size=0.2rem style="text-align:center;">"$0/month"</Text>
-                        <Text size=0.18rem style="text-align:center;">detail</Text>
-*/
-
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -86,8 +61,36 @@ module.exports = class extends Radio {
 
     beforeRender () {
         try {
-            //this.frame().effect({ modname:'selectable' }).baseColor(this.accentColor());
+	    super.beforeRender();
 	    this.frame().effect(new Selectable({ baseColor:this.accentColor() }));
+	} catch (e) {
+            console.error(e.stack);
+            throw e;
+        }
+    }
+
+    afterRender () {
+       try {
+           super.afterRender();
+           if (true === this.radio().select()) {
+               let eid = this.frame().effect({ modname:'selectable' }).eid();
+               this.frame().execEffect(eid);
+           }
+       } catch (e) {
+            console.error(e.stack);
+            throw e;
+        } 
+    }
+
+    select (prm) {
+        try {
+	    if (undefined === prm) {
+                return this.radio().select();
+	    }
+	    if ((true === prm) && (true === this.isExists())) {
+                this.radio().childDom().getRawDom().click();
+	    }
+	    this.radio().select(prm);
 	} catch (e) {
             console.error(e.stack);
             throw e;
@@ -96,7 +99,17 @@ module.exports = class extends Radio {
     
     selectEvent (fnc,prm) {
         try {
-	    return this.changeEvent(fnc,prm);
+	    let sel_evt = (s1,s2,s3) => {
+                try {
+                    if ((true === s2) && ('function' === typeof fnc)) {
+                        fnc(s1,s2,s3);
+		    }
+		} catch (e) {
+                    console.error(e.stack);
+                    throw e;
+		}
+	    }
+	    return this.radio().changeEvent(sel_evt,prm);
 	} catch (e) {
             console.error(e.stack);
             throw e;
@@ -106,10 +119,10 @@ module.exports = class extends Radio {
     frame (prm,cnf) {
         try {
             if (true === comutl.isinc(prm,'Frame')) {
-                prm.config({
-		    //effect: new Selectable(),
-                    layout: new loMargin('top','0.15rem'),
-                });
+                let clk_evt = (c1,c2,c3) => { c3.select(true); };
+                prm.event(
+                    new Click(new ConfArg(clk_evt,this))
+                );
             }
             return this.innerComp('frame', prm, Frame);
         } catch (e) {
