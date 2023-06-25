@@ -161,5 +161,23 @@ module.exports = class extends Radio {
             throw e;
 	}
     }
+
+    baseColor (prm,opt) {
+        try {
+            return this.frame().baseColor(prm,opt);
+        } catch (e) {
+            console.error(e.stack);
+            throw e;
+        }
+    }
+    
+    borderColor (prm,opt) {
+        try {
+            return this.frame().accentColor(prm,opt);
+        } catch (e) {
+            console.error(e.stack);
+            throw e;
+        }
+    }
 }
 /* end of file */
