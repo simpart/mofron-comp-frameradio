@@ -39,7 +39,9 @@ module.exports = class extends Radio {
     initDomConts () {
         try {
 	    this.rootDom(new mofron.class.Dom("div",this));
+             
 
+            this.frame().style({ 'align-items': 'center' });
             this.child(this.frame());
             this.childDom(this.frame().childDom());
             
@@ -102,7 +104,7 @@ module.exports = class extends Radio {
 	    let sel_evt = (s1,s2,s3) => {
                 try {
                     if ((true === s2) && ('function' === typeof fnc)) {
-                        fnc(s1,s2,s3);
+                        fnc(this,s2,s3);
 		    }
 		} catch (e) {
                     console.error(e.stack);
